@@ -16,6 +16,7 @@
 * Multiple route middleware
 * Multiple and nestable routers
 * `async/await` support
+* Dynamic middleware
 
 ## Migrating to 7 / Koa 2
 
@@ -29,12 +30,18 @@
 
 ```bash
 # npm .. 
-npm i @koa/router
+npm i https://github.com/anhhao-me/rugo-router.git
 # yarn .. 
-yarn add @koa/router
+yarn add https://github.com/anhhao-me/rugo-router.git
 ```
 
 ## [API Reference](./API.md)
+
+## New Features
+
+### Dynamic Middleware
+
+
 
 ## Contributing
 
