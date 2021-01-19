@@ -41,6 +41,49 @@ yarn add https://github.com/anhhao-me/rugo-router.git
 
 ### Dynamic Middleware
 
+```js
+const app = new Koa();
+const router = new Router();
+
+const injectMiddleware = (ctx) => {
+  ctx.body = {
+    foo: 'bar'
+  }
+};
+
+router.get('/', async (ctx, next, use) => {
+  use(injectMiddleware);
+  await next();
+});
+
+app.use(router.routes());
+app.listen(3000);
+```
+
+### Dynamic Routing
+
+```js
+const app = new Koa();
+const router = new Router();
+
+router.use('/foo(.*)', async (ctx, next, use) => {
+  ctx.routerPath = ctx.params['0'];
+
+  const dynamicRouter = new Router();
+  dynamicRouter.get('/bar', ctx => {
+    ctx.body = {
+      foo: 'bar'
+    };
+  });
+  
+
+  use(dynamicRouter.routes());
+  await next();
+});
+
+app.use(router.routes());
+app.listen(3000);
+```
 
 
 ## Contributing

@@ -41,4 +41,35 @@ describe('Dynamic middleware', function () {
         done();
       });
   });
+
+  it('should run dynamic routing', function (done) {
+    const app = new Koa();
+    const router = new Router();
+
+    router.use('/foo(.*)', async (ctx, next, use) => {
+      ctx.routerPath = ctx.params['0'];
+
+      const dynamicRouter = new Router();
+      dynamicRouter.get('/bar', ctx => {
+        ctx.body = {
+          foo: 'bar'
+        };
+      });
+      
+
+      use(dynamicRouter.routes());
+      await next();
+    });
+
+    app.use(router.routes());
+
+    request(http.createServer(app.callback()))
+    .get('/foo/bar')
+    .expect(200)
+    .end(function (err, res) {
+      if (err) return done(err);
+      expect(res.body).to.have.property('foo', 'bar');
+      done();
+    });
+  });
 });
